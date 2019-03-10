@@ -6,15 +6,26 @@ public class ElectionResult {
     private double per_dem;
     private double per_gop;
     private double diff;
-    private double per_point;
     private double per_point_diff;
     private String state_abbr;
     private String country_name;
     private String combined_fips;
 
-    public ElectionResult(){
-
+    public ElectionResult(double votes_dem, double votes_gop, double total_votes, double per_dem, double per_gop, double diff, double per_point_diff, String state_abbr, String country_name, String combined_fips) {
+        this.votes_dem = votes_dem;
+        this.votes_gop = votes_gop;
+        this.total_votes = total_votes;
+        this.per_dem = per_dem;
+        this.per_gop = per_gop;
+        this.diff = diff;
+        this.per_point_diff = per_point_diff;
+        this.state_abbr = state_abbr;
+        this.country_name = country_name;
+        this.combined_fips = combined_fips;
     }
+
+
+
     public double getVotes_dem() {
         return votes_dem;
     }
@@ -61,14 +72,6 @@ public class ElectionResult {
 
     public void setDiff(double diff) {
         this.diff = diff;
-    }
-
-    public double getPer_point() {
-        return per_point;
-    }
-
-    public void setPer_point(double per_point) {
-        this.per_point = per_point;
     }
 
     public double getPer_point_diff() {

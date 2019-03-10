@@ -22,18 +22,9 @@ public class Utils {
         data=readFileAsString(data);
         ArrayList <ElectionResult> elect_results = new ArrayList<>();
         String[] lines = data.split("\n");
-        for (int i = 1; i <lines.length-1 ; i++) {
-            String[] arrdata = splitData(lines[i]); 
-            System.out.println(arrdata[i]);
-            for (int j = 0; j < arrdata.length; j++) {
+        for (int i = 1; i <lines.length ; i++) {
+            String[] arrdata = splitData(lines[i]);
 
-                if (arrdata[i].indexOf("%")!=(-1)){
-                    arrdata[i]=deletePrecent(arrdata[i]);
-                }
-                if (arrdata[i].indexOf(",")!=(-1)){
-                    arrdata[i]=deleteComa(arrdata[i]);
-                }
-            }
             double Votes_dem= Double.parseDouble(arrdata[1]);
             double Votes_gop= (Double.parseDouble(arrdata[2]));
             double Total_votes= (Double.parseDouble(arrdata[3]));
@@ -54,7 +45,7 @@ public class Utils {
     private static String[] splitData(String line) {
         int index_firstQuot=0,index_coma=0;
         index_firstQuot=line.indexOf("\"");
-        index_coma=line.indexOf(",",index_firstQuot+1);
+        index_coma=line.indexOf(",",index_firstQuot);
         String temp=line.substring(0,index_coma)+line.substring(index_coma+1);
         String[] arr = temp.split("\"");
         String temp2="";
