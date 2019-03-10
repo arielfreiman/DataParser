@@ -12,6 +12,9 @@ public class ElectionResult {
     private String country_name;
     private String combined_fips;
 
+    public ElectionResult(){
+
+    }
     public double getVotes_dem() {
         return votes_dem;
     }
