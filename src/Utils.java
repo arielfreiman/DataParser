@@ -22,16 +22,15 @@ public class Utils {
         data=readFileAsString(data);
         ArrayList <ElectionResult> elect_results = new ArrayList<>();
         String[] lines = data.split("\n");
-        for (int i = 1; i <lines.length ; i++) {
-            String[] arrdata = splitData(lines[i]); //TODO: fix it so diff wont split ("," inside the quot)
+        for (int i = 1; i <lines.length-1 ; i++) {
+            String[] arrdata = splitData(lines[i]); 
+            System.out.println(arrdata[i]);
             for (int j = 0; j < arrdata.length; j++) {
-                if (arrdata[i].indexOf("\"")!=-1){
-                    arrdata[i]=deleteQuotes(arrdata[i]);
-                }
-                if (arrdata[i].indexOf("%")!=-1){
+
+                if (arrdata[i].indexOf("%")!=(-1)){
                     arrdata[i]=deletePrecent(arrdata[i]);
                 }
-                if (arrdata[i].indexOf(",")!=-1){
+                if (arrdata[i].indexOf(",")!=(-1)){
                     arrdata[i]=deleteComa(arrdata[i]);
                 }
             }
@@ -53,6 +52,17 @@ public class Utils {
     }
 
     private static String[] splitData(String line) {
+        int index_firstQuot=0,index_coma=0;
+        index_firstQuot=line.indexOf("\"");
+        index_coma=line.indexOf(",",index_firstQuot+1);
+        String temp=line.substring(0,index_coma)+line.substring(index_coma+1);
+        String[] arr = temp.split("\"");
+        String temp2="";
+        for (int i = 0; i < arr.length; i++) {
+            temp2+=arr[i];
+         }
+         String output=temp2.substring(0,temp2.indexOf("%"))+temp2.substring(temp2.indexOf("%")+1);
+        return output.split(",");
     }
 
     private static String deleteComa(String str) {
