@@ -19,11 +19,11 @@ public class Utils {
         return output.toString();
     }
     public static ArrayList<ElectionResult> parse2016ElectionResults(String data) {
+        data=readFileAsString(data);
         ArrayList <ElectionResult> elect_results = new ArrayList<>();
         String[] lines = data.split("\n");
         for (int i = 1; i <lines.length ; i++) {
-            String[] arrdata = lines[i].split(",");
-            ElectionResult elect = new ElectionResult();
+            String[] arrdata = splitData(lines[i]); //TODO: fix it so diff wont split ("," inside the quot)
             for (int j = 0; j < arrdata.length; j++) {
                 if (arrdata[i].indexOf("\"")!=-1){
                     arrdata[i]=deleteQuotes(arrdata[i]);
@@ -35,21 +35,25 @@ public class Utils {
                     arrdata[i]=deleteComa(arrdata[i]);
                 }
             }
-            elect.setVotes_dem(Double.parseDouble(arrdata[1]));
-            elect.setVotes_gop(Double.parseDouble(arrdata[2]));
-            elect.setTotal_votes(Double.parseDouble(arrdata[3]));
-            elect.setPer_dem(Double.parseDouble(arrdata[4]));
-            elect.setPer_gop(Double.parseDouble(arrdata[5]));
-            elect.setDiff(Double.parseDouble(arrdata[6]));
-            elect.setPer_point_diff(Double.parseDouble(arrdata[7]));
-            elect.setState_abbr(arrdata[8]);
-            elect.setCountry_name(arrdata[9]);
-            elect.setCombined_fips(arrdata[10]);
+            double Votes_dem= Double.parseDouble(arrdata[1]);
+            double Votes_gop= (Double.parseDouble(arrdata[2]));
+            double Total_votes= (Double.parseDouble(arrdata[3]));
+            double Per_dem= (Double.parseDouble(arrdata[4]));
+            double Per_gop= (Double.parseDouble(arrdata[5]));
+            double Diff= (Double.parseDouble(arrdata[6]));
+            double Per_point_diff= (Double.parseDouble(arrdata[7]));
+            String State_abbr= (arrdata[8]);
+            String Country_name= (arrdata[9]);
+            String Combined_fips= (arrdata[10]);
+            ElectionResult elect = new ElectionResult(Votes_dem,Votes_gop,Total_votes,Per_dem,Per_gop,Diff,Per_point_diff,State_abbr,Country_name,Combined_fips);
             elect_results.add(elect);
         }
         return elect_results;
 
-}
+    }
+
+    private static String[] splitData(String line) {
+    }
 
     private static String deleteComa(String str) {
         String[] newStringArr=str.split(",");
@@ -61,7 +65,8 @@ public class Utils {
     }
 
     private static String deletePrecent(String str) {
-        return str.substring(0,str.length()-1);
+        int index=str.indexOf("%");
+        return str.substring(0,index);
     }
 
     private static String deleteQuotes(String str) {
