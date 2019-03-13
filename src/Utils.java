@@ -45,32 +45,21 @@ public class Utils {
     private static String[] splitData(String line) {
         int index_firstQuot=0,index_coma=0;
         index_firstQuot=line.indexOf("\"");
-        index_coma=line.indexOf(",",index_firstQuot);
-        String temp=line.substring(0,index_coma)+line.substring(index_coma+1);
-        String[] arr = temp.split("\"");
-        String temp2="";
-        for (int i = 0; i < arr.length; i++) {
-            temp2+=arr[i];
-         }
-         String output=temp2.substring(0,temp2.indexOf("%"))+temp2.substring(temp2.indexOf("%")+1);
-        return output.split(",");
-    }
-
-    private static String deleteComa(String str) {
-        String[] newStringArr=str.split(",");
-        String output="";
-        for (int i = 0; i < newStringArr.length; i++) {
-            output+=newStringArr[i];
+        if (index_firstQuot==-1){
+            String out = line.substring(0, line.indexOf("%")) + line.substring(line.indexOf("%") + 1);
+            return out.split(",");
         }
-        return output;
+        index_coma = line.indexOf(",", index_firstQuot);
+        String temp = line.substring(0, index_coma) + line.substring(index_coma + 1);
+        String[] arr = temp.split("\"");
+        String temp2 = "";
+        for (int i = 0; i < arr.length; i++) {
+            temp2 += arr[i];
+        }
+        String output = temp2.substring(0, temp2.indexOf("%")) + temp2.substring(temp2.indexOf("%") + 1);
+        return output.split(",");
+
+
     }
 
-    private static String deletePrecent(String str) {
-        int index=str.indexOf("%");
-        return str.substring(0,index);
-    }
-
-    private static String deleteQuotes(String str) {
-        return str.substring(1,str.length()-1);
-    }
 }

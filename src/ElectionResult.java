@@ -105,4 +105,20 @@ public class ElectionResult {
     public void setCombined_fips(String combined_fips) {
         this.combined_fips = combined_fips;
     }
+
+    @Override
+    public String toString() {
+        return "ElectionResult{" +
+                "votes_dem=" + votes_dem +
+                ", votes_gop=" + votes_gop +
+                ", total_votes=" + total_votes +
+                ", per_dem=" + per_dem +
+                ", per_gop=" + per_gop +
+                ", diff=" + diff +
+                ", per_point_diff=" + per_point_diff +
+                ", state_abbr='" + state_abbr + '\'' +
+                ", country_name='" + country_name + '\'' +
+                ", combined_fips='" + combined_fips + '\'' +
+                '}';
+    }
 }
