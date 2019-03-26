@@ -1,5 +1,4 @@
 public class EducationResult {
-    private String code;
     private String state;
     private String County;
     private double precentLessHSDip;
@@ -7,12 +6,13 @@ public class EducationResult {
     private double someCollege;
     private double bachlorOrHigher;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public EducationResult(String state, String county, double precentLessHSDip, double precentOnlyHS, double someCollege, double bachlorOrHigher) {
+        this.state = state;
+        County = county;
+        this.precentLessHSDip = precentLessHSDip;
+        this.precentOnlyHS = precentOnlyHS;
+        this.someCollege = someCollege;
+        this.bachlorOrHigher = bachlorOrHigher;
     }
 
     public String getState() {
