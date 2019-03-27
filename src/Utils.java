@@ -47,17 +47,34 @@ public class Utils {
         data=readFileAsString(data);
         ArrayList <EducationResult> educationResults=new ArrayList<>();
         String[] lines = data.split("\n");
-        for (int i = 7; i <lines.length ; i++) {
+        for (int i = 7; i <lines.length-10 ; i++) {
             String[] arrdata = cleanLines(lines[i]);
             if(arrdata != null) {
                 String stateName = arrdata[1];
                 String county = arrdata[2];
-                double precentLessHSDip = Double.parseDouble(arrdata[40]);
-                double precentOnlyHS = Double.parseDouble(arrdata[41]);
-                double someCollege = Double.parseDouble(arrdata[42]);
-                double bachlorOrHigher = Double.parseDouble(arrdata[43]);
-                EducationResult result = new EducationResult(stateName,county,precentLessHSDip,precentOnlyHS,someCollege,bachlorOrHigher);
-                educationResults.add(result);
+                if (Integer.parseInt(arrdata[0])!=30113) {
+                    double precentLessHSDip = Double.parseDouble(arrdata[arrdata.length - 4]);
+                    double precentOnlyHS = Double.parseDouble(arrdata[arrdata.length - 3]);
+                    double someCollege = Double.parseDouble(arrdata[arrdata.length - 2]);
+                    double bachlorOrHigher = Double.parseDouble(arrdata[arrdata.length - 1]);
+                    String level="";
+                    if (someCollege+bachlorOrHigher>=precentLessHSDip+precentOnlyHS){
+                        level = "High";
+                    }
+                    else {
+                        level ="Low";
+                    }
+                    EducationResult result = new EducationResult(stateName, county, precentLessHSDip, precentOnlyHS, someCollege, bachlorOrHigher,level);
+                    educationResults.add(result);
+                }
+                else {
+                    double precentLessHSDip = 0;
+                    double precentOnlyHS = 0;
+                    double someCollege = 0;
+                    double bachlorOrHigher = 0;
+                    EducationResult result = new EducationResult(stateName, county, precentLessHSDip, precentOnlyHS, someCollege, bachlorOrHigher,"Low");
+                    educationResults.add(result);
+                }
             }
         }
         return educationResults;
@@ -68,19 +85,23 @@ public class Utils {
         if (line.indexOf(",")+1 != line.substring(line.indexOf(",")+1).indexOf(",")) {
             int indexFirstQ = line.indexOf("\"");
             int indexSecQ = line.indexOf("\"", indexFirstQ + 1);
-            while (indexFirstQ != -1 && indexSecQ != -1) {
 
-                while (line.substring(indexFirstQ, indexSecQ).indexOf(",") != -1) {
-                    int indexCom = line.substring(indexFirstQ, indexSecQ).indexOf(",");
-                    if (indexCom!=-1) {
-                        line = line.substring(0, indexCom) + line.substring(indexCom + 1);
-                    }
+            while (indexFirstQ != -1 && indexSecQ != -1) {
+                int check = line.indexOf(",",indexFirstQ);
+                while (check != -1) {
+                    int indexCom = check;
+                    line = line.substring(0, indexCom) + line.substring(indexCom + 1);
+                    indexFirstQ = line.indexOf("\"");
+                    indexSecQ = line.indexOf("\"", indexFirstQ + 1);
+                    check=line.indexOf(",",indexFirstQ);
+                    if (check>=indexSecQ) break;
                 }
-                line = line.substring(0, indexFirstQ) + line.substring(indexFirstQ + 1, indexSecQ) + line.substring(indexSecQ + 1);
+                line = line.substring(0, indexFirstQ) + line.substring(indexFirstQ +1, indexSecQ) + line.substring(indexSecQ + 1);
                 indexFirstQ = line.indexOf("\"");
                 indexSecQ = line.indexOf("\"");
 
             }
+
             int indexPerc = line.indexOf("%");
             while (indexPerc != (-1)) {
                 line = line.substring(0, indexPerc) + line.substring(indexPerc + 1);
@@ -95,6 +116,7 @@ public class Utils {
         }
         else return null;
     }
+
 
     private static String[] splitData(String line) {
         int index_firstQuot=0,index_coma=0;

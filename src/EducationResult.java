@@ -5,18 +5,32 @@ public class EducationResult {
     private double precentOnlyHS;
     private double someCollege;
     private double bachlorOrHigher;
+    private String level;
 
-    public EducationResult(String state, String county, double precentLessHSDip, double precentOnlyHS, double someCollege, double bachlorOrHigher) {
+    public EducationResult(String state, String county, double precentLessHSDip, double precentOnlyHS, double someCollege, double bachlorOrHigher, String level) {
         this.state = state;
         County = county;
         this.precentLessHSDip = precentLessHSDip;
         this.precentOnlyHS = precentOnlyHS;
         this.someCollege = someCollege;
         this.bachlorOrHigher = bachlorOrHigher;
+        this.level=level;
     }
 
     public String getState() {
         return state;
+    }
+
+    @Override
+    public String toString() {
+        return "EducationResult{" +
+                "state='" + state + '\'' +
+                ", County='" + County + '\'' +
+                ", precentLessHSDip=" + precentLessHSDip +
+                ", precentOnlyHS=" + precentOnlyHS +
+                ", someCollege=" + someCollege +
+                ", bachlorOrHigher=" + bachlorOrHigher + ", level="+level+
+                '}';
     }
 
     public void setState(String state) {
