@@ -27,21 +27,26 @@ public class Utils {
             if(arrdata != null) {
                 double Votes_dem = Double.parseDouble(arrdata[1]);
                 double Votes_gop = (Double.parseDouble(arrdata[2]));
-                double Total_votes = (Double.parseDouble(arrdata[3]));
-                double Per_dem = (Double.parseDouble(arrdata[4]));
-                double Per_gop = (Double.parseDouble(arrdata[5]));
-                double Diff = (Double.parseDouble(arrdata[6]));
-                double Per_point_diff = (Double.parseDouble(arrdata[7]));
+
+//                double Total_votes = (Double.parseDouble(arrdata[3]));
+//                double Per_dem = (Double.parseDouble(arrdata[4]));
+//                double Per_gop = (Double.parseDouble(arrdata[5]));
+//                double Diff = (Double.parseDouble(arrdata[6]));
+//                double Per_point_diff = (Double.parseDouble(arrdata[7]));
                 String State_abbr = (arrdata[8]);
                 String Country_name = (arrdata[9]);
-                String Combined_fips = (arrdata[10]);
-                ElectionResult elect = new ElectionResult(Votes_dem, Votes_gop, Total_votes, Per_dem, Per_gop, Diff, Per_point_diff, State_abbr, Country_name, Combined_fips);
+//                String Combined_fips = (arrdata[10]);
+                String major_votes="";
+                if(Votes_dem>=Votes_gop){major_votes="Democrats";}
+                else {major_votes="Republicans";}
+                ElectionResult elect = new ElectionResult( State_abbr, Country_name, Votes_dem,Votes_gop,major_votes);
                 elect_results.add(elect);
             }
         }
         return elect_results;
 
     }
+
 
     public static ArrayList<EducationResult> parseEducationResults (String data){
         data=readFileAsString(data);
@@ -80,12 +85,38 @@ public class Utils {
         return educationResults;
     }
 
+
+    public static ArrayList<UnemploymentResults> parseUnemploymentResults (String data){
+        data=readFileAsString(data);
+        ArrayList <UnemploymentResults> uemploymentResults=new ArrayList<>();
+        String[] lines = data.split("\n");
+        for (int i = 10; i <lines.length ; i++) {
+            String[] arrdata = cleanLines(lines[i]);
+            if(arrdata != null) {
+                String stateName = arrdata[1];
+                String county = arrdata[2];
+
+                if (!arrdata[0].equals("02201") && !arrdata[0].equals("02232") && !arrdata[0].equals("02280") && !stateName.equals("PR")) {
+                    double rate2016 = Double.parseDouble(arrdata[arrdata.length - 7].trim());
+                    double rate2015 = Double.parseDouble(arrdata[arrdata.length - 11].trim());
+                    double rate2014 = Double.parseDouble(arrdata[arrdata.length - 15].trim());
+                    double rate2013 = Double.parseDouble(arrdata[arrdata.length - 19].trim());
+                    double rate2012 = Double.parseDouble(arrdata[arrdata.length - 23].trim());
+
+                    UnemploymentResults result = new UnemploymentResults(stateName, county, rate2012, rate2013, rate2014, rate2015, rate2016);
+                    uemploymentResults.add(result);
+                }
+            }
+        }
+        return uemploymentResults;
+    }
+
     private static String[] cleanLines(String line){
 
         if (line.indexOf(",")+1 != line.substring(line.indexOf(",")+1).indexOf(",")) {
             int indexFirstQ = line.indexOf("\"");
             int indexSecQ = line.indexOf("\"", indexFirstQ + 1);
-
+            line=line.trim();
             while (indexFirstQ != -1 && indexSecQ != -1) {
                 int check = line.indexOf(",",indexFirstQ);
                 while (check != -1) {

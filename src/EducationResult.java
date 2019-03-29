@@ -76,4 +76,5 @@ public class EducationResult {
     public void setBachlorOrHigher(double bachlorOrHigher) {
         this.bachlorOrHigher = bachlorOrHigher;
     }
+    public String getLevel(){return level;}
 }

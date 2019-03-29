@@ -10,6 +10,7 @@ public class ElectionResult {
     private String state_abbr;
     private String country_name;
     private String combined_fips;
+    private String major_votes;
 
     public ElectionResult(double votes_dem, double votes_gop, double total_votes, double per_dem, double per_gop, double diff, double per_point_diff, String state_abbr, String country_name, String combined_fips) {
         this.votes_dem = votes_dem;
@@ -25,6 +26,15 @@ public class ElectionResult {
     }
 
 
+    public ElectionResult(String state_abbr, String country_name, double votes_dem, double votes_gop,String major_votes){
+        this.state_abbr=state_abbr;
+        this.country_name=country_name;
+        this.votes_dem=votes_dem;
+        this.votes_gop=votes_gop;
+        this.major_votes=major_votes;
+    }
+
+    public String getMajor_votes(){return major_votes;}
 
     public double getVotes_dem() {
         return votes_dem;
@@ -108,17 +118,10 @@ public class ElectionResult {
 
     @Override
     public String toString() {
-        return "ElectionResult{" +
-                "votes_dem=" + votes_dem +
-                ", votes_gop=" + votes_gop +
-                ", total_votes=" + total_votes +
-                ", per_dem=" + per_dem +
-                ", per_gop=" + per_gop +
-                ", diff=" + diff +
-                ", per_point_diff=" + per_point_diff +
-                ", state_abbr='" + state_abbr + '\'' +
-                ", country_name='" + country_name + '\'' +
-                ", combined_fips='" + combined_fips + '\'' +
-                '}';
+        return " State=" + state_abbr +
+                ", county_name=" + country_name +
+                ", Democrats='" + votes_dem + '\'' +
+                ", Republicans='" + votes_gop + '\'' +
+                ", major_votes='" + major_votes;
     }
 }
